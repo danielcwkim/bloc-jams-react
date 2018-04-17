@@ -1,7 +1,7 @@
  import React, { Component } from 'react';
+ import albumData from './../data/albums';
 
   class Album extends Component {
-<<<<<<< HEAD
    constructor(props) {
      super(props);
 
@@ -49,14 +49,9 @@
               <td className="song-title">{song.title}</td>
               <td className="song-duration">{song.duration}</td>
             </tr>)
-          }
+          	}
            </tbody>
          </table>
-
-   render() {
-     return (
-       <section className="Album">
-         {this.props.match.params.slug} Album will go here 
        </section>
      );
    }
