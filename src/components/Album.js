@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import albumData from './../data/albums';
+ import React, { Component } from 'react';
 
   class Album extends Component {
+<<<<<<< HEAD
    constructor(props) {
      super(props);
 
@@ -52,6 +52,11 @@ import albumData from './../data/albums';
           }
            </tbody>
          </table>
+
+   render() {
+     return (
+       <section className="Album">
+         {this.props.match.params.slug} Album will go here 
        </section>
      );
    }
