@@ -13,9 +13,39 @@
      })
  
      this.state = {
-       album: album,
-       songs: songs
+      album: album,
+      currentSong: album.songs[0],
+      isPlaying: false,
+      songs: songs
      };
+ 
+     this.audioElement = document.createElement('audio');
+     this.audioElement.src = album.songs[0].audioSrc;
+   }
+
+   play() {
+     this.audioElement.play();
+     this.setState({ isPlaying: true });
+   }
+
+   pause() {
+     this.audioElement.pause();
+     this.setState({ isPlaying: false });
+   } 
+
+   setSong(song) {
+     this.audioElement.src = song.audioSrc;
+     this.setState({ currentSong: song });
+   }  
+
+   handleSongClick(song) {
+     const isSameSong = this.state.currentSong === song;
+     if (this.state.isPlaying && isSameSong) {
+       this.pause();
+     } else {
+       if (!isSameSong) { this.setSong(song); }    
+       this.play();
+     }
    }
 
    render() {
@@ -36,9 +66,8 @@
              <col id="song-duration-column" />
            </colgroup>  
            <tbody>
-           {
-            this.state.album.songs.map((song,index)=>
-            <tr className="song-details" key={index}>
+           {this.state.album.songs.map((song,index)=>
+           	<tr className="song" key={index} onClick={() => this.handleSongClick(song)} >
               <td className="song-actions">
                  <button>
                    <span className="song-number">{index+1}</span>
