@@ -8,20 +8,26 @@ import albumData from './../data/albums';
      const album = albumData.find( album => {
        return album.slug === this.props.match.params.slug
      });
+       const songs = albumData.find( album => {
+       return album.songs
+     })
  
      this.state = {
-       album: album
+       album: album,
+       songs: songs
      };
    }
 
    render() {
      return (
-       <section className="Album">
+       <section className="album">
          <section id="album-info">
-           <img id="album-cover-art" src={this.state.album.albumCover} />
+           <img id="album-cover-art" src={this.state.album.albumCover} alt={this.state.album.title} />
+           <div className="album-details">
              <h1 id="album-title">{this.state.album.title}</h1>
              <h2 className="artist">{this.state.album.artist}</h2>
              <div id="release-info">{this.state.album.releaseInfo}</div>
+            </div>
          </section>
          <table id="song-list">
            <colgroup>
@@ -30,6 +36,20 @@ import albumData from './../data/albums';
              <col id="song-duration-column" />
            </colgroup>  
            <tbody>
+           {
+            this.state.album.songs.map((song,index)=>
+            <tr className="song-details" key={index}>
+              <td className="song-actions">
+                 <button>
+                   <span className="song-number">{index+1}</span>
+                   <span className="ion-play"></span>
+                   <span className="ion-pause"></span>
+                 </button>
+              </td>
+              <td className="song-title">{song.title}</td>
+              <td className="song-duration">{song.duration}</td>
+            </tr>)
+          }
            </tbody>
          </table>
        </section>
