@@ -1,6 +1,7 @@
  import React, { Component } from 'react';
  import albumData from './../data/albums';
  import PlayerBar from './PlayerBar';
+ import './Album.css';
 
   class Album extends Component {
    constructor(props) {
@@ -117,15 +118,17 @@
 
    render() {
      return (
-       <section className="album">
-         <section id="album-info">
+      <div className="album">
+        <div className="mdl-grid" style={{width: '100%', margin: 'auto'}}>
+        <div className="mdl-cell mdl-cell--6-col album-details">
            <img id="album-cover-art" src={this.state.album.albumCover} alt={this.state.album.title} />
-           <div className="album-details">
-             <h1 id="album-title">{this.state.album.title}</h1>
-             <h2 className="artist">{this.state.album.artist}</h2>
-             <div id="release-info">{this.state.album.releaseInfo}</div>
+          <div className="album-details" style= {{textAlign: "center"}}>
+            <h2 id="album-title" style={{color: "#3c1053", fontWeight: "bold"}}>{this.state.album.title}</h2>
+            <h3 className="artist" style={{color: "white"}}>{this.state.album.artist}</h3>
+            <div id="release-info" style={{color: "white"}}>{this.state.album.releaseInfo}</div>
             </div>
-         </section>
+        </div>
+        <div className="mdl-cell mdl-cell--6-col song-list" style={{margin:"auto", textAlign:"left"}}>
          <table id="song-list">
            <colgroup>
              <col id="song-number-column" />
@@ -134,18 +137,28 @@
            </colgroup>  
            <tbody>
            {this.state.album.songs.map((song,index)=>
-           	<tr className="song" key={index} onClick={() => this.handleSongClick(song)} >
-              <td className="song-actions">
-                 <button>
-					<span className={this.props.isPlaying ? 'ion-pause' : 'ion-play'}>{index + 1}</span>
-                 </button>
+                <tr  className="mdl-grid song" style={{width: "100%", margin: "auto"}} key={index} onClick={() => this.handleSongClick(song)}
+
+                  onMouseEnter={() => this.setState({ isHovered: index + 1 })}
+                  onMouseLeave={() => this.setState({ isHovered: false })}>
+                  <td className="song-actions" style={{paddingRight: "40px"}}>
+                  { (this.state.currentSong.title === song.title) ?
+                   <span className={this.state.isPlaying ? "fa fa-pause" : "fa fa-play"} style={{fontSize: "18px"}}></span>
+                   :
+                   (this.state.isHovered === index+1) ?
+                   <span className="fa fa-play"  style={{fontSize: "18px"}}></span>
+                   :
+                   <span className="song-number" style={{fontSize: "18px"}}>{ index + 1 }</span>
+                 }
               </td>
-              <td className="song-title">{song.title}</td>
-              <td className="song-duration">{song.duration}</td>
+                  <td className="song-title" style={{color: "#3c1053", fontSize: "18px", fontWeight: "bold", minWidth: "200px"}} >{song.title}</td>
+                  <td className="song-duration" style={{color: "#3c1053", fontSize: "18px"}} >{this.formatTime(song.duration)}</td>
             </tr>)
           	}
            </tbody>
          </table>
+        </div>
+        </div>
       	 <PlayerBar
            isPlaying={this.state.isPlaying}
            currentSong={this.state.currentSong}
@@ -159,7 +172,7 @@
            handleVolumeChange={(e) => this.handleVolumeChange(e)}
            formatTime={(e) => this.formatTime(e)}       
          />
-       </section>
+         </div>
      );
    }
  }
